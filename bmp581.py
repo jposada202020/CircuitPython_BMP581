@@ -15,7 +15,7 @@ CircuitPython Driver for the Bosch BMP581 pressure sensor
 
 from micropython import const
 from adafruit_bus_device import i2c_device
-from adafruit_register.i2c_struct import ROUnaryStruct, UnaryStruct
+from adafruit_register.i2c_struct import ROUnaryStruct
 from adafruit_register.i2c_bits import RWBits, ROBits
 
 try:
@@ -35,20 +35,21 @@ _ODR_CONFIG = const(0x37)
 STANDBY = const(0x00)
 NORMAL = const(0x01)
 FORCED = const(0x02)
-NON_STOP = const(0X03)
+NON_STOP = const(0x03)
 power_mode_values = (STANDBY, NORMAL, FORCED, NON_STOP)
 
 
 # Oversample Rate
-OSR1=const(0x00)
-OSR2=const(0x01)
-OSR4=const(0x02)
-OSR8=const(0x03)
-OSR16=const(0x04)
-OSR32=const(0x05)
-OSR64=const(0x06)
-OSR128=const(0x07)
+OSR1 = const(0x00)
+OSR2 = const(0x01)
+OSR4 = const(0x02)
+OSR8 = const(0x03)
+OSR16 = const(0x04)
+OSR32 = const(0x05)
+OSR64 = const(0x06)
+OSR128 = const(0x07)
 pressure_oversample_rate_values = (OSR1, OSR2, OSR4, OSR8, OSR16, OSR32, OSR64, OSR128)
+
 
 class BMP581:
     """Driver for the BMP581 Sensor connected over I2C.
@@ -116,7 +117,12 @@ class BMP581:
         | :py:const:`bmp581.NON_STOP` | :py:const:`0X03` |
         +-----------------------------+------------------+
         """
-        values = ("STANDBY", "NORMAL", "FORCED", "NON_STOP",)
+        values = (
+            "STANDBY",
+            "NORMAL",
+            "FORCED",
+            "NON_STOP",
+        )
         return values[self._power_mode]
 
     @power_mode.setter
@@ -150,7 +156,16 @@ class BMP581:
         | :py:const:`bmp581.OSR128` | :py:const:`0x07` |
         +---------------------------+------------------+
         """
-        values = ("OSR1", "OSR2", "OSR4", "OSR8", "OSR16", "OSR32", "OSR64", "OSR128",)
+        values = (
+            "OSR1",
+            "OSR2",
+            "OSR4",
+            "OSR8",
+            "OSR16",
+            "OSR32",
+            "OSR64",
+            "OSR128",
+        )
         return values[self._pressure_oversample_rate]
 
     @pressure_oversample_rate.setter
@@ -167,7 +182,7 @@ class BMP581:
         """
         raw_temp = self._temperature
 
-        return self._twos_comp(raw_temp, 24) / 2 ** 16
+        return self._twos_comp(raw_temp, 24) / 2**16
 
     @property
     def pressure(self) -> float:
@@ -177,7 +192,7 @@ class BMP581:
         """
         raw_pressure = self._pressure
 
-        return self._twos_comp(raw_pressure, 24) / 2 ** 6 / 1000
+        return self._twos_comp(raw_pressure, 24) / 2**6 / 1000
 
     @staticmethod
     def _twos_comp(val: int, bits: int) -> int:
