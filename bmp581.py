@@ -49,6 +49,16 @@ OSR32 = const(0x05)
 OSR64 = const(0x06)
 OSR128 = const(0x07)
 pressure_oversample_rate_values = (OSR1, OSR2, OSR4, OSR8, OSR16, OSR32, OSR64, OSR128)
+temperature_oversample_rate_values = (
+    OSR1,
+    OSR2,
+    OSR4,
+    OSR8,
+    OSR16,
+    OSR32,
+    OSR64,
+    OSR128,
+)
 
 
 class BMP581:
@@ -87,7 +97,9 @@ class BMP581:
     _device_id = ROUnaryStruct(_REG_WHOAMI, "B")
 
     _power_mode = RWBits(2, _ODR_CONFIG, 0)
+    _temperature_oversample_rate = RWBits(3, _OSR_CONF, 0)
     _pressure_oversample_rate = RWBits(3, _OSR_CONF, 3)
+    _output_data_rate = RWBits(5, _ODR_CONFIG, 2)
 
     _temperature = ROBits(24, 0x1D, 0, 3)
     _pressure = ROBits(24, 0x20, 0, 3)
@@ -173,6 +185,66 @@ class BMP581:
         if value not in pressure_oversample_rate_values:
             raise ValueError("Value must be a valid pressure_oversample_rate setting")
         self._pressure_oversample_rate = value
+
+    @property
+    def temperature_oversample_rate(self) -> str:
+        """
+        Sensor temperature_oversample_rate
+
+        +---------------------------+------------------+
+        | Mode                      | Value            |
+        +===========================+==================+
+        | :py:const:`bmp581.OSR1`   | :py:const:`0x00` |
+        +---------------------------+------------------+
+        | :py:const:`bmp581.OSR2`   | :py:const:`0x01` |
+        +---------------------------+------------------+
+        | :py:const:`bmp581.OSR4`   | :py:const:`0x02` |
+        +---------------------------+------------------+
+        | :py:const:`bmp581.OSR8`   | :py:const:`0x03` |
+        +---------------------------+------------------+
+        | :py:const:`bmp581.OSR16`  | :py:const:`0x04` |
+        +---------------------------+------------------+
+        | :py:const:`bmp581.OSR32`  | :py:const:`0x05` |
+        +---------------------------+------------------+
+        | :py:const:`bmp581.OSR64`  | :py:const:`0x06` |
+        +---------------------------+------------------+
+        | :py:const:`bmp581.OSR128` | :py:const:`0x07` |
+        +---------------------------+------------------+
+        """
+        values = (
+            "OSR1",
+            "OSR2",
+            "OSR4",
+            "OSR8",
+            "OSR16",
+            "OSR32",
+            "OSR64",
+            "OSR128",
+        )
+        return values[self._temperature_oversample_rate]
+
+    @temperature_oversample_rate.setter
+    def temperature_oversample_rate(self, value: int) -> None:
+        if value not in temperature_oversample_rate_values:
+            raise ValueError(
+                "Value must be a valid temperature_oversample_rate setting"
+            )
+        self._temperature_oversample_rate = value
+
+    @property
+    def output_data_rate(self) -> int:
+        """
+        Sensor output_data_rate. for a complete list of values please see the datasheet
+
+        """
+
+        return self._output_data_rate
+
+    @output_data_rate.setter
+    def output_data_rate(self, value: int) -> None:
+        if value not in range(0, 32, 1):
+            raise ValueError("Value must be a valid output_data_rate setting")
+        self._output_data_rate = value
 
     @property
     def temperature(self) -> float:
