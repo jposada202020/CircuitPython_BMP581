@@ -254,7 +254,7 @@ class BMP581:
         """
         raw_temp = self._temperature
 
-        return self._twos_comp(raw_temp, 24) / 2**16
+        return self._twos_comp(raw_temp, 24) / 2**16.0
 
     @property
     def pressure(self) -> float:
@@ -264,7 +264,7 @@ class BMP581:
         """
         raw_pressure = self._pressure
 
-        return self._twos_comp(raw_pressure, 24) / 2**6 / 1000
+        return self._twos_comp(raw_pressure, 24) / 2**6.0 / 1000
 
     @staticmethod
     def _twos_comp(val: int, bits: int) -> int:
