@@ -100,6 +100,7 @@ class BMP581:
     _temperature_oversample_rate = RWBits(3, _OSR_CONF, 0)
     _pressure_oversample_rate = RWBits(3, _OSR_CONF, 3)
     _output_data_rate = RWBits(5, _ODR_CONFIG, 2)
+    _pressure_enabled = RWBits(1, _OSR_CONF, 6)
 
     _temperature = ROBits(24, 0x1D, 0, 3)
     _pressure = ROBits(24, 0x20, 0, 3)
@@ -111,6 +112,8 @@ class BMP581:
             raise RuntimeError("Failed to find BMP581")
 
         self._power_mode = NORMAL
+        self._pressure_enabled = True
+        self.sea_level_pressure = 101.325
 
     @property
     def power_mode(self) -> str:
@@ -264,7 +267,26 @@ class BMP581:
         """
         raw_pressure = self._pressure
 
-        return self._twos_comp(raw_pressure, 24) / 2**6.0 / 1000
+        return self._twos_comp(raw_pressure, 24) / 2**6 / 1000
+
+    @property
+    def altitude(self):
+        """
+        With the measured pressure p and the pressure at sea level p0 e.g. 1013.25hPa,
+        the altitude in meters can be calculated with the international barometric formula
+
+        With the measured pressure p and the absolute altitude the pressure at sea level
+        can be calculated too. See the altitude setter for this calculation
+        """
+
+        altitude = 44330.0 * (
+            1.0 - ((self.pressure / self.sea_level_pressure) ** 0.190284)
+        )
+        return round(altitude, 1)
+
+    @altitude.setter
+    def altitude(self, value: float) -> None:
+        self.sea_level_pressure = self.pressure / (1.0 - value / 44330.0) ** 5.255
 
     @staticmethod
     def _twos_comp(val: int, bits: int) -> int:
