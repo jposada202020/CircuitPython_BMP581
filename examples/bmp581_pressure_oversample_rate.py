@@ -17,7 +17,7 @@ while True:
             "Current Pressure oversample rate setting: ", bmp.pressure_oversample_rate
         )
         for _ in range(10):
-            press = bmp.pressure
-            print("pressure:{:.2f}kPa".format(press))
+            print(f"Pressure: {bmp.pressure:.2f}kPa")
+            print()
             time.sleep(0.5)
         bmp.pressure_oversample_rate = pressure_oversample_rate

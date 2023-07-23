@@ -267,7 +267,7 @@ class BMP581:
         """
         raw_pressure = self._pressure
 
-        return self._twos_comp(raw_pressure, 24) / 2**6 / 1000
+        return self._twos_comp(raw_pressure, 24) / 2**6.0 / 1000
 
     @property
     def altitude(self):
@@ -290,7 +290,6 @@ class BMP581:
 
     @staticmethod
     def _twos_comp(val: int, bits: int) -> int:
-
         if val & (1 << (bits - 1)) != 0:
             return val - (1 << bits)
         return val

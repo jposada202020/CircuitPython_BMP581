@@ -6,9 +6,10 @@ import time
 import board
 import bmp581
 
-i2c = board.I2C()  # uses board.SCL and board.SDA
+i2c = board.I2C()
 bmp = bmp581.BMP581(i2c)
 
 while True:
-    print("Pressure: {:.2f}kPa".format(bmp.pressure))
+    print(f"Pressure: {bmp.pressure:.2f}kPa")
+    print()
     time.sleep(0.5)

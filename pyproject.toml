@@ -20,14 +20,11 @@ authors = [
 urls = {Homepage = "https://github.com/jposada202020/CircuitPython_BMP581"}
 keywords = [
     "sensor",
-    "blinka",
     "circuitpython",
-    "micropython",
     "bmp581",
     "pressure",
     "temperature",
     "bosch",
-    "sensor",
     "BMP581",
 ]
 license = {text = "MIT"}

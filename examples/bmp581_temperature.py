@@ -10,5 +10,6 @@ i2c = board.I2C()  # uses board.SCL and board.SDA
 bmp = bmp581.BMP581(i2c)
 
 while True:
-    print("Temperature: {:.2f}C".format(bmp.temperature))
-    time.sleep(0.5)
+    print(f"Temperature {bmp.temperature:.2f}°C")
+    print()
+    time.sleep(1)
