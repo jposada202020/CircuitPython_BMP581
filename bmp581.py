@@ -278,11 +278,11 @@ class BMP581:
         With the measured pressure p and the absolute altitude the pressure at sea level
         can be calculated too. See the altitude setter for this calculation
         """
-
+        # updated to Bosch’s formula in bmp180 datasheet, and eliminate excessive rounding of altitude
         altitude = 44330.0 * (
-            1.0 - ((self.pressure / self.sea_level_pressure) ** 0.190284)
+            1.0 - ((self.pressure / self.sea_level_pressure) ** (1.0 / 5.255))
         )
-        return round(altitude, 1)
+        return altitude
 
     @altitude.setter
     def altitude(self, value: float) -> None:
