@@ -1,27 +1,11 @@
-Introduction
-============
+⛔️ DEPRECATED
+===============
 
+This repository is no longer supported, please consider using alternatives.
 
-.. image:: https://readthedocs.org/projects/circuitpython-bmp581/badge/?version=latest
-    :target: https://circuitpython-bmp581.readthedocs.io/
-    :alt: Documentation Status
-
-
-.. image:: https://img.shields.io/pypi/v/circuitpython-bmp581.svg
-    :alt: latest version on PyPI
-    :target: https://pypi.python.org/pypi/circuitpython-bmp581
-
-.. image:: https://static.pepy.tech/personalized-badge/circuitpython-bmp581?period=total&units=international_system&left_color=grey&right_color=blue&left_text=Pypi%20Downloads
-    :alt: Total PyPI downloads
-    :target: https://pepy.tech/project/circuitpython-bmp581
-
-.. image:: https://github.com/jposada202020/CircuitPython_BMP581/workflows/Build%20CI/badge.svg
-    :target: https://github.com/jposada202020/CircuitPython_BMP581/actions
-    :alt: Build Status
-
-.. image:: https://img.shields.io/badge/code%20style-black-000000.svg
-    :target: https://github.com/psf/black
-    :alt: Code Style: Black
+.. image:: http://unmaintained.tech/badge.svg
+  :target: http://unmaintained.tech
+  :alt: No Maintenance Intended
 
 CircuitPython Driver for the Bosch BMP581 pressure sensor
 
